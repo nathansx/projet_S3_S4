@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ajout</title>
+    <link rel="stylesheet" href="css/styleAjout.css" />
+</head>
+
+<body>
+    <form action="/ajout" method="post" id="addPano">
+        <select name="newFolder" id="newFolder"><% folders.forEach(function(folder) { %>
+            <option value=<%= folder %> </option><%= folder %> </option> <% }); %>
+        </select>
+        <select name="puce" id="puce">
+            <% for(var i=1; i<17; i++){ %>
+            <option value="puce<%= i %>">capteur <%= i %> </option>
+            <% } %> 
+        </select>
+        <input type="submit" value="OK">
+    </form>
+
+    <a href="/adminMenu">Retour menu admin</a>
+    <script type="text/javascript" src="Panoramadata/lib/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="Panoramadata/lib/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+        // $(document).ready(function () {
+        //     $('#addPano').on('submit', function () {
+        //         location.reload();
+        //     });
+        // })
+    </script>
+</body>
+
+</html>

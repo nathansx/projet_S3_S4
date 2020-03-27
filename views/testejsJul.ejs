@@ -1,0 +1,87 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>test_Windows_explo</title>
+  <meta name="description" content="test">
+  
+
+</head>
+
+	<body>
+		
+		<label for="file">choisir un panorama</label>
+		<input type="file" id="file" name="file" webkitdirectory directory multiple>
+		<label for="numCapteur">numero du capteur</label>
+		<input type="number" id="numCapteur" name="numCapteur" min="0" max="16">
+		<label for="numPano" >choisir le numero du panorama</label>
+		<input type="number" id="numPano" name="numPano" min="0">
+		<input type="button" value="validé" onclick="insert()">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript" src="js/testwrite.js"></script>
+		<script>
+		
+/*
+	creer un nouveau lien(relie un capteur et un panorama) et l'enregistre dans le fichier data.csv
+*/	
+function insert(){
+
+	var numPano = document.getElementById("numPano").value.toString();
+	if (numList.includes(numPano)==true)
+	{
+		return null;
+	}
+
+	var file = document.getElementById("file").value;
+	var path = $(file).attr("src");
+	var fs = require("fs-extra");
+ 
+	// copy source folder to destination
+	fs.copy(path, "../Panorama/Panoramadata/fichiersDonnees", function (err) {
+		if (err){
+			console.log('An error occured while copying the folder.');
+			return console.error(err);
+		}
+		console.log('Copy completed!');
+	});
+	
+	var numCapteur = document.getElementById("numCapteur").value;
+	var socket = io.connect('http://localhost:8080');
+	var panorama;
+
+	// Fonction qui va attendre que la page soit entièrement chargée avant de lancer le script de la carte
+	document.addEventListener("loadedplayer", function() {
+
+		panorama = document.getElementById("krpanoSWFObject");
+
+		// Récupération et traitement du fichier CSV
+		$.ajax({
+			type: "GET",
+			url: "../Panoramadata/fichiersDonnees/data.csv", // CHANGER LE NOM DU DOSSIER SI BESOIN
+			dataType: "text",
+			success: function(data) {processData(data);}
+		});
+		
+
+		
+	}, false);
+
+	var map = new map();
+	map.set(numCapteur.toString(),getNumPanorama());
+	var fs = require("fs");
+/*
+	var data= ;
+
+	fs.writeFile("../panorama/Panoramadata/fichiersDonnees/data.csv", data, (err) => {
+	if (err) console.log(err);
+	console.log("Successfully Written to File.");
+	});
+*/
+}
+		
+</script>		
+	</body>
+</html>
