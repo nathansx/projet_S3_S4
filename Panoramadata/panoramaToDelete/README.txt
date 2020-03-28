@@ -1,0 +1,1 @@
+Ici sont les dossiers de panoramas supprimés du serveur
