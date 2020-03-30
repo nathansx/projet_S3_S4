@@ -452,6 +452,20 @@ mark,
 .list-inline-item {
   display: inline-block;
 }
+/*
+.map_list
+{
+	width: 50%
+	float: right;
+}
+*/
+.resp{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
 
 .list-inline-item:not(:last-child) {
   margin-right: 0.5rem;
@@ -5454,7 +5468,7 @@ button.close {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  width: 100%;
+  width: 110%;
   pointer-events: auto;
   background-color: #fff;
   background-clip: padding-box;
