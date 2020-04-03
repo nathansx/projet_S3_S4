@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Partie admin</title>
+    <!-- Bootstrap -->
+    <link href="bootstrap-4.0.0.css" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Menu</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="Admin.html">Admin <span class="sr-only">(current)</span></a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" data-toggle="modal" data-target="#ajoutModal">Ajouter</a>
+          </li> -->
+	      <!--  <li class="nav-item">
+            <a class="nav-link" data-toggle="modal" data-target="#modifierModal">Modifier</a>
+          </li>
+		  <li class="nav-item">
+            <a class="nav-link" data-toggle="modal" data-target="#supprimerModal">Supprimer</a>
+		  </li> -->
+		  <li class="nav-item">
+            <a class="nav-link" href="#">Visite</a>
+		  </li> 
+		  <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#ajoutModal">Ajouter</a>
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modifierModal">Modifier</a>
+              <!-- <div class="dropdown-divider"></div> -->
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#supprimerModal">Supprimer</a>
+            </div>
+          </li>      
+        </ul>
+      </div>
+    </nav>
+	  
+
+		<!-- Ajout Modal -->
+		<div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog" aria-labelledby="ajoutModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="ajoutModalLabel">Ajout panorama</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+			<!--Body du modal-->	  
+			<div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Choisir...
+   			 <span class="caret"></span></button>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li class="dropdown-item" href="#">panorama</li>
+              <li class="dropdown-item" href="#">panorama</li>
+              <li class="dropdown-item" href="#">panorama</li>
+              <li class="dropdown-item" href="#">panorama</li>
+              <!--<div class="dropdown-divider"></div>-->
+            </div>
+          </div>  
+			 </div>
+				<!--Footer du modal-->
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+				<button type="button" class="btn btn-primary">Sauvegarder</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  
+	  <!--Modifier modal-->
+		<div class="modal fade" id="modifierModal" tabindex="-1" role="dialog" aria-labelledby="modifModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="modifModalLabel">Modifie panorama</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+			<!--Body du modal-->	  
+			<div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Choisir...
+   			 <span class="caret"></span></button>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li class="dropdown-item" href="#">panorama</li>
+              <li class="dropdown-item" href="#">panorama</li>
+              <li class="dropdown-item" href="#">panorama</li>
+              <li class="dropdown-item" href="#">panorama</li>
+              <!--<div class="dropdown-divider"></div>-->
+              <li class="dropdown-item" href="#">panorama</li>
+            </div>
+          </div>  
+			 </div>
+				<!--Footer du modal-->
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+				<button type="button" class="btn btn-primary">Sauvegarder</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  
+	   <!--Supprimer modal-->
+		<div class="modal fade" id="supprimerModal" tabindex="-1" role="dialog" aria-labelledby="suppModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="suppModalLabel">Capteur 1</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+			<!--Body du modal-->
+			<div class="dropdown">
+				<div style="margin-left: 25px"> Capteur 1 
+                <button style="margin-left: 250px" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Choisir...
+   			 <span class="caret"></span></button>
+				
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li class="dropdown-item" href="#">panorama</li>
+              <li class="dropdown-item active" href="#">panorama</li>
+              <li class="dropdown-item" href="#">panorama</li>
+              <li class="dropdown-item" href="#">panorama</li>
+            </div>
+			 </div>
+				</div>
+				  </div>
+				
+				
+				<!--Footer du modal-->
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+				<button type="button" class="btn btn-success">Ajouter</button>
+				<button type="button" class="btn btn-warning">Modifier</button>
+				<button type="button" class="btn btn-danger">Supprimer</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+	  <!-- Image Map Generated by http://www.image-map.net/ -->
+
+	<img src="images/test2.png" class="resp" usemap="#image-map">
+	<map name="image-map">
+		<area data-toggle="modal" data-target="#supprimerModal" href="" coords="430,295,395,231" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="432,300,464,368" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="412,388,447,451" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="432,454,465,521" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="344,399,376,464" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="377,493,413,557" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="205,320,240,385" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="155,366,190,430" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="196,409,232,474" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="253,476,285,539" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="148,526,181,589" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="173,613,205,678" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="327,678,354,746" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="316,560,348,621" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="241,543,261,611" shape="rect">
+		<area data-toggle="modal" data-target="#supprimerModal" target="" alt="" title="" href="" coords="268,594,293,660" shape="rect">
+	</map>
+	  
+ 
+    <footer class="text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <p>Copyright © Muséum de l'Ardèche. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="popper.min.js"></script>
+    <script src="bootstrap-4.0.0.js"></script>
+  </body>
+</html>
