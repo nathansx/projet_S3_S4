@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var liensCollection = require("./models/liens").liens;
 var panosCollection = require("./models/panoramas").panos;
 var pucesCollection = require("./models/capteurs").puces;
+var admin_functions = require('./admin_mod')
 
 // Ouvre la connexion à la bdd
 module.exports.connectDB = function () {
@@ -146,8 +147,11 @@ module.exports.getAllPuce = function (callback) {
 }
 
 module.exports.getAllPano = function (callback) {
+    var foldersList = admin_functions.allDirToAdd()
+    var namePanoInBase = []
     var panoToAddList = []
     var panoAdded = []
+    var lastID = 0
     panosCollection.find(function (err, panos) {
 
         pucesCollection.find().populate('panos').exec(function (err, puces) {
@@ -157,8 +161,21 @@ module.exports.getAllPano = function (callback) {
                 })
             })
             panos.forEach(pano => {
+                if (lastID <= pano.numPano) {
+                    lastID = pano.numPano + 1
+                }
+                namePanoInBase.push(pano.namePano)
                 if (panoAdded.indexOf(pano.numPano) == -1) {
                     panoToAddList.push(pano)
+                }
+            })
+            foldersList.forEach(namePano => {
+                if (namePanoInBase.indexOf(namePano) == -1) {
+                    var newPano = new panosCollection({
+                        numPano: lastID,
+                        namePano: namePano
+                    })
+                    panoToAddList.push(newPano)
                 }
             })
 
@@ -168,25 +185,48 @@ module.exports.getAllPano = function (callback) {
     })
 }
 
-module.exports.saveNewLink = function (numPuce, numPano) {
-    panosCollection.findOne({numPano: numPano}, function (err, pano) {
-        pucesCollection.findOne({numPuce: numPuce}, function (err, puce) {
-            puce.panos.push(pano)
-            puce.save(function (err) {
-                if (err) return handleError(err);
-            })
-            pano.puce = puce
-            pano.save(function (err) {
-                if (err) return handleError(err);
-            })
+module.exports.saveNewLink = function (numPuce, numPano, namePano) {
+    panosCollection.findOne({
+        numPano: numPano
+    }, function (err, pano) {
+        pucesCollection.findOne({ numPuce: numPuce}, function (err, puce) {
+            if (pano == null) {
+                var newPano = new panosCollection({
+                    namePano: namePano,
+                    numPano: numPano
+                })
+                puce.panos.push(newPano)
+                newPano.puce = puce
+                newPano.save(function (err) {
+                    if (err) return handleError(err);
+                })
+                puce.save(function (err) {
+                    if (err) return handleError(err);
+                })
+            } else {
+                puce.panos.push(pano)
+                pano.puce = puce
+
+                pano.save(function (err) {
+                    if (err) return handleError(err);
+                })
+                puce.save(function (err) {
+                    if (err) return handleError(err);
+                })
+            }
+
         })
     })
 }
 
 module.exports.deleteLink = function (numPuce, numPano) {
-    panosCollection.findOne({numPano: numPano}, function (err, pano) {
-        pucesCollection.findOne({numPuce: numPuce}, function (err, puce) {
-            puce.panos.splice(puce.panos.indexOf(pano._id),1)
+    panosCollection.findOne({
+        numPano: numPano
+    }, function (err, pano) {
+        pucesCollection.findOne({
+            numPuce: numPuce
+        }, function (err, puce) {
+            puce.panos.splice(puce.panos.indexOf(pano._id), 1)
             pano.puce = undefined
             puce.save(function (err) {
                 if (err) return handleError(err);
@@ -199,10 +239,16 @@ module.exports.deleteLink = function (numPuce, numPano) {
 }
 
 module.exports.changeLink = function (numPuce, numPano, numPuceToDelete) {
-    panosCollection.findOne({numPano: numPano}, function (err, pano) {
-        pucesCollection.findOne({numPuce: numPuce}, function (err, puceToAdd) {
-            pucesCollection.findOne({numPuce: numPuceToDelete}, function (err, puceToChange) {
-                puceToChange.panos.splice(puceToChange.panos.indexOf(pano._id),1)
+    panosCollection.findOne({
+        numPano: numPano
+    }, function (err, pano) {
+        pucesCollection.findOne({
+            numPuce: numPuce
+        }, function (err, puceToAdd) {
+            pucesCollection.findOne({
+                numPuce: numPuceToDelete
+            }, function (err, puceToChange) {
+                puceToChange.panos.splice(puceToChange.panos.indexOf(pano._id), 1)
                 pano.puce = puceToAdd
                 puceToAdd.panos.push(pano)
                 puceToChange.save(function (err) {
@@ -214,26 +260,30 @@ module.exports.changeLink = function (numPuce, numPano, numPuceToDelete) {
                 puceToAdd.save(function (err) {
                     if (err) return handleError(err);
                 })
-             })
+            })
         })
     })
 }
-module.exports.getPanoPerPuceName = function (namePuce, callback) { 
+module.exports.getPanoPerPuceName = function (namePuce, callback) {
     pucesCollection
-    .findOne({namePuce: namePuce})
-    .populate("panos")
-    .exec(function (err, puce) { 
-        if (err) return callback(err, null)
-        callback(null, puce.panos, puce.numPuce)
-     })
+        .findOne({
+            namePuce: namePuce
+        })
+        .populate("panos")
+        .exec(function (err, puce) {
+            if (err) return callback(err, null)
+            callback(null, puce.panos, puce.numPuce)
+        })
 }
 
-module.exports.getPanoPerPuceNum = function (numPuce, callback) { 
+module.exports.getPanoPerPuceNum = function (numPuce, callback) {
     pucesCollection
-    .findOne({numPuce: numPuce})
-    .populate("panos")
-    .exec(function (err, puce) { 
-        if (err) return callback(err, null)
-        callback(null, puce.panos)
-     })
+        .findOne({
+            numPuce: numPuce
+        })
+        .populate("panos")
+        .exec(function (err, puce) {
+            if (err) return callback(err, null)
+            callback(null, puce.panos)
+        })
 }

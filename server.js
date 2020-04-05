@@ -18,16 +18,11 @@ var bodyParser = require("body-parser");
 var io = require("socket.io").listen(server);
 var ejs = require("ejs");
 var admin_function = require("./project_modules/admin_mod");
-var liensCollection = require("./project_modules/models/liens").liens;
-var panosCollection = require("./project_modules/models/panoramas").panos;
 var mongo_functions = require("./project_modules/mongo_mod")
 var connection = require("./project_modules/mongo_mod").connectDB;
 var insertLien = require("./project_modules/mongo_mod").insertData;
 var dropLien = require("./project_modules/mongo_mod").removeLien;
 var foldersList = require("./project_modules/mongo_mod").foldersList;
-var allToDisplay = require("./project_modules/mongo_mod").getAllToDisplay
-var allPuce = require("./project_modules/mongo_mod").getAllPuce
-var allPano = require("./project_modules/mongo_mod").getAllPano
 var saveLink = require("./project_modules/mongo_mod").saveNewLink
 
 
@@ -47,7 +42,6 @@ app.get("/", function (req, res) {
     res.render("admin");
 });
 app.get("/menu", function (req, res) {
-
     res.render("index");
 });
 app.get("/visite", function (req, res) {
@@ -61,7 +55,7 @@ app.get("/adminMenu", function (req, res) {
 });
 app.get("/getFolders", function (req, res) {
     var myString = "<option value=''>Selectionnez un panorama</option>"
-    allPano(function (err, panoList) {
+    mongo_functions.getAllPano(function (err, panoList) {
         panoList.forEach(pano => {
             myString += "<option value='" + pano.numPano + "'>" + pano.namePano + "</option>"
         })
@@ -70,7 +64,7 @@ app.get("/getFolders", function (req, res) {
 })
 app.get("/getPuces", function (req, res) {
     var myString = "<option value=''>Selectionnez un capteur</option>"
-    allPuce(function (err, puceList) {
+    mongo_functions.getAllPuce(function (err, puceList) {
         puceList.forEach(puce => {
             myString += "<option value='" + puce.numPuce + "'>" + puce.namePuce + "</option>"
         })
@@ -80,9 +74,9 @@ app.get("/getPuces", function (req, res) {
 app.post("/saveNewLink", function (req, res) {
     var numPuce = req.body.numPuce
     var numPano = req.body.numPano
+    var namePano = req.body.namePano
 
-
-    saveLink(numPuce, numPano)
+    mongo_functions.saveNewLink(numPuce, numPano, namePano)
 })
 app.post("/deleteLink", function (req, res) {
     mongo_functions.deleteLink(req.body.numPuce, req.body.numPano)

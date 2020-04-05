@@ -3,7 +3,6 @@ const Schema = mongoose.Schema
 
 // création du schéma des panoramas (correspond à un constructeur)
 const capteursSchema = new Schema({
-    _id: Schema.Types.ObjectId,
     numPuce: Number,
     namePuce: String,
     panos: [{ type: Schema.Types.ObjectId, ref: 'panos' }]
