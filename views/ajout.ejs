@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <form action="/ajout" method="post" id="addPano">
+    <form action="/ajout" method="post" id="addPano" onsubmit="refreshSelect()">
         <select name="newFolder" id="newFolder"><% folders.forEach(function(folder) { %>
             <option value=<%= folder %> </option><%= folder %> </option> <% }); %>
         </select>
@@ -17,18 +17,19 @@
             <option value="puce<%= i %>">capteur <%= i %> </option>
             <% } %> 
         </select>
-        <input type="submit" value="OK">
+        <input type="submit" id="add" value="OK">
     </form>
 
     <a href="/adminMenu">Retour menu admin</a>
     <script type="text/javascript" src="Panoramadata/lib/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="Panoramadata/lib/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript">
-        // $(document).ready(function () {
-        //     $('#addPano').on('submit', function () {
-        //         location.reload();
-        //     });
-        // })
+    function refreshSelect() { 
+        $.get("getFolderToAdd")
+            .then(function (data) {
+                console.log(data);
+            })
+     }
     </script>
 </body>
 

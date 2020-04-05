@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 // création du schéma des panoramas (correspond à un constructeur)
-const panosSchema = new Schema({
+const capteursSchema = new Schema({
     _id: Schema.Types.ObjectId,
-    numPano: Number,
-    namePano: String,
-    puce: { type: Schema.Types.ObjectId, ref: 'puces' }
+    numPuce: Number,
+    namePuce: String,
+    panos: [{ type: Schema.Types.ObjectId, ref: 'panos' }]
 });
 
 // construit dans la collection (équivalent table SQL) "panos"
-module.exports.panos = mongoose.model("panos", panosSchema);
+module.exports.puces = mongoose.model("puces", capteursSchema);

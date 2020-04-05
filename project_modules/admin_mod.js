@@ -3,19 +3,25 @@ const fs_extra = require("fs-extra");
 
 // récupère la liste des dossiers à ajouter
 // présents dans le dossier "panoramaToAdd"
-module.exports.allDirToAdd = function() {
-    const myPath = __dirname + "/../Panoramadata/panoramaToAdd/";
+module.exports.allDirToAdd = function () {
+    const myPath = __dirname + "/../Panoramadata/";
+    var dossiersPermanents = ['fichiersDonnees', 'graphics', 'lib', 'sounds', 'spots']
     var toutLesDossiers = [];
     // Récupère tout les sous dossiers
     const isDirectory = source => fs.lstatSync(myPath + source).isDirectory();
     const getDirectories = source => fs.readdirSync(source).filter(isDirectory);
-    toutLesDossiers.push(getDirectories(myPath));
-    return toutLesDossiers[0];
+    // toutLesDossiers.push(getDirectories(myPath));
+    getDirectories(myPath).forEach(folder => {
+        if (dossiersPermanents.indexOf(folder) == -1) {
+            toutLesDossiers.push(folder);
+        }
+    })
+    return toutLesDossiers;
 };
 
 // récupère la liste des dossiers à supprimer
 // présents dans le dossier "panoramaActif"
-module.exports.allDirToDelete = function() {
+module.exports.allDirToDelete = function () {
     const myPath = __dirname + "/../Panoramadata/panoramaActif/";
     var toutLesDossiers = [];
     // Récupère tout les sous dossiers
@@ -27,9 +33,9 @@ module.exports.allDirToDelete = function() {
 
 // Déplace (copie et supprime) le dossier choisi
 // vers dans le dossier des panoramas actifs
-module.exports.changeDirectoryToActif = function(namePano) {
+module.exports.changeDirectoryToActif = function (namePano) {
     var newPanoFolder =
-        __dirname + "/../Panoramadata/panoramaToAdd/" + namePano + "/";
+        __dirname + "/../Panoramadata/" + namePano + "/";
     var activPanoFolder =
         __dirname + "/../Panoramadata/panoramaActif/" + namePano + "/";
 
@@ -48,7 +54,7 @@ module.exports.changeDirectoryToActif = function(namePano) {
 
 // Déplace (copie et supprime) le dossier choisi
 // vers le dossier des panoramas supprimés (corbeille)
-module.exports.changeDirectoryToDelete = function(namePano) {
+module.exports.changeDirectoryToDelete = function (namePano) {
     var panoFolderToDelete =
         __dirname + "/../Panoramadata/panoramaActif/" + namePano + "/";
     var folderToDelete =

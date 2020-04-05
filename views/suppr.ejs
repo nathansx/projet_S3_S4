@@ -8,46 +8,40 @@
 </head>
 
 <body>
-    <form action="/slt" method="post">
-        <select name="puce" id="puce" onchange="folderList(this.value)">
+    <form action="/pce" id="puceForm" method="post">
+        <select name="numPuce" id="numPuce" onchange="folderList(this.value)">
             <option value="">Choisissez le capteur</option>
             <% for(var i=1; i<17; i++){ %>
-            <option value="puce<%= i %>">capteur <%= i %> </option>
+            <option href="/pce" value="puce<%= i %>">capteur <%= i %> </option>
             <% } %>
         </select>
     </form>
-    <form action="/suppr" method="post" id="formDelete">
-        <select name="folderToDelete" id="folderToDelete"><% folders.forEach(function(folder) { %>
-            <option value=<%= folder %> onclick="ff(folder)"; </option><%= folder %> </option> <% }); %> 
-        </select>
-        <input type="submit" value="Supprimer">
-    </form>
+    
 
     <a href="/adminMenu">Retour menu admin</a>
 
     <script type="text/javascript" src="Panoramadata/lib/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="Panoramadata/lib/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript">
-
+        
             function folderList(numPuce){
-                console.log(this);
                 
                 if(numPuce != ""){
-                    $('#formDelete').show()
                     $.ajax({
                         type: 'post',
                         url: '/pce',
                         data: {'numPuce':numPuce},
                     })
-                    .done(function(data){
-                        // console.log(data.folders);
-                        location.reload();
-                        // server(numPuce)
-                        // $.get("/suppr", function(s) {
-                        //     console.log(s);
-                            
-                        // })
-                    });
+                    .then(function (param) {
+                        if($('#formDelete').length == 0){
+                            $("#puceForm").after("<form action='suppr' method='post' id='formDelete'>"+
+                                "<select name='folderToDelete' id='folderToDelete'></select>"+
+                                "<input type='submit' value='Supprimer'>"+
+                                "</form>"
+                                )
+                            }
+                        $("#folderToDelete").html(param);
+                    })
                 }
                 else{
                     // $('#formDelete').hide()
