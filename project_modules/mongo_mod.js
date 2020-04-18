@@ -19,176 +19,63 @@ module.exports.connectDB = function () {
     db.on("error", console.error.bind(console, "MongoDB connection error:"));
 };
 
-// on récupère le dernier ID attribué et si le dossier est déja présent dans la bdd, on reprend son ID.
-// Permet d'insérer un nouveau panorama {numPano  : ID, namePano : name}
-// et un nouveau lien {numPuce : IDcapteur, numPano: IDpano}
-// module.exports.insertData = function (numPuce, namePano) {
-//     var lastID = 1;
-//     var verif = false;
-//     var numIfExist = 0
-//     panosCollection
-//         .find(function (err, docs) {
-//             if (docs.length != 0) {
-//                 docs.forEach(lien => {
-//                     if (lien.namePano == namePano) {
-//                         verif = true
-//                         numIfExist = lien.numPano
-//                     }
-//                     if (lastID <= lien.numPano) {
-//                         lastID = lien.numPano + 1;
-//                     }
-//                 })
-
-//             }
-
-//             if (verif == true) {
-//                 var newPano = new panosCollection({
-//                     numPano: numIfExist,
-//                     namePano: namePano
-//                 });
-
-//                 var newLien = new liensCollection({
-//                     numPuce: numPuce,
-//                     numPano: numIfExist
-//                 });
-//             } else {
-//                 var newPano = new panosCollection({
-//                     numPano: lastID,
-//                     namePano: namePano
-//                 });
-
-//                 var newLien = new liensCollection({
-//                     numPuce: numPuce,
-//                     numPano: lastID
-//                 });
-//             }
-
-//             newLien.save(function (err) {
-//                 if (err) return handleError(err);
-//             });
-//             newPano.save(function (err) {
-//                 if (err) return handleError(err);
-//             });
-//         });
-// };
-
-// Supprime l'objet dans la table liens
-// dont le numPano correspond à celui du nom du dossier choisi
-// module.exports.removeLien = function (namePano) {
-//     panosCollection.findOne({
-//         namePano: namePano
-//     }, function (err, pano) {
-//         liensCollection.deleteOne({
-//             numPano: pano.numPano
-//         }, function (err) {
-//             if (err) return handleError(err);
-//         })
-//     })
-// }
-
-// Equivalent à un getFolderByID
-// Permet de récuperer la liste des noms des dossiers 
-// liés à un numéro de capteur donné
-// module.exports.foldersList = function (numPuce, callback) {
-//     var listNumPano = [];
-//     var listNamePano = [];
-
-//     liensCollection.find({
-//         numPuce: numPuce
-//     }, function (err, liens) {
-//         liens.forEach(lien => {
-//             listNumPano.push(lien.numPano);
-//         })
-//         panosCollection.find({
-//             numPano: {
-//                 $in: listNumPano
-//             }
-//         }, function (err, panos) {
-//             panos.forEach(pano => {
-//                 listNamePano.push(pano.namePano);
-//             })
-//             if (err) return callback(err, null)
-//             callback(null, listNamePano)
-//         })
-//     })
-// };
-
-// module.exports.getAllToDisplay = function (callback) {
-//     var listNumPano = [];
-//     var listNamePano = [];
-
-//     liensCollection.find(function (err, liens) {
-//         liens.forEach(lien => {
-//             listNumPano.push(lien.numPano);
-//         })
-//         panosCollection.find({
-//             numPano: {
-//                 $in: listNumPano
-//             }
-//         }, function (err, panos) {
-//             panos.forEach(pano => {
-//                 listNamePano.push(pano.namePano);
-//             })
-//             if (err) return callback(err, null)
-//             callback(null, listNamePano)
-//         })
-//     })
-// };
-
 // Récupère dans la base tout les capteurs
 module.exports.getAllPuce = function (callback) {
     var puceList = []
     pucesCollection.find(function (err, puces) {
-        puces.forEach(puce => {
-            puceList.push(puce)
+            puces.forEach(puce => {
+                puceList.push(puce)
+            })
+
         })
-        if (err) return callback(err, null)
-        callback(null, puceList)
-    })
+        .sort({
+            numPuce: 1
+        })
+        .exec(function (err, puces) {
+            if (err) return callback(err, null)
+            callback(null, puces)
+        })
+
 }
 // Récupère tout les panoramas à ajouter
-// Compare les dossiers présents dans la base (mais qui ne sont pas liés)
-// Avec les dossiers de panoramas récupèrer grace à la fonction allDirToAdd
-// Si le panorama n'est pas encore enregistré, on crée un nouvel objet panosCollection
+// Compare le tableau des noms des panoramas ne possédant pas de champ 'puce'
+// Avec celui des noms de dossiers de panoramas récupèrés grace à la fonction allDirToAdd
+// Si le nom de dossier n'est pas indéxé dans le tableau des panoramas déjà liés,
+// on crée un nouvel objet panosCollection
 // qu'on ajoute à la liste des panoramas à ajouter.
 // Utilise un callback afin de transmettre les données à l'interface sans soucis d'asynchronisme
 module.exports.getAllPano = function (callback) {
     var foldersList = admin_functions.allDirToAdd()
     var namePanoInBase = []
     var panoToAddList = []
-    var panoAdded = []
     var lastID = 1
-    panosCollection.find(function (err, panos) {
-
-        pucesCollection.find().populate('panos').exec(function (err, puces) {
-            puces.forEach(puce => {
-                puce.panos.forEach(pano => {
-                    panoAdded.push(pano.numPano)
-                })
-            })
+    panosCollection.find() // récupère tout les panos de la base
+        .populate("puce")
+        .exec(function (err, panos) {
+            if (err) return handleError(err);
             panos.forEach(pano => {
-                if (lastID <= pano.numPano) {
+                if (lastID <= pano.numPano) {// crée le dernier numPano
                     lastID = pano.numPano + 1
                 }
-                namePanoInBase.push(pano.namePano)
-                if (panoAdded.indexOf(pano.numPano) == -1) {
+                if(pano.puce == undefined){// Si le pano n'est pas lié
+                    namePanoInBase.push(pano.namePano)
                     panoToAddList.push(pano)
                 }
-            })
-            foldersList.forEach(namePano => {
-                if (namePanoInBase.indexOf(namePano) == -1) {
+            });
+            foldersList.forEach(folderName => {
+                if (namePanoInBase.indexOf(folderName) == -1) {// si le pano n'est pas dans la base
                     var newPano = new panosCollection({
                         numPano: lastID,
-                        namePano: namePano
+                        namePano: folderName
                     })
                     panoToAddList.push(newPano)
+                    lastID += 1
                 }
             })
-
+            
             if (err) return callback(err, null)
             callback(null, panoToAddList)
         })
-    })
 }
 
 // Cherche le capteur et le panorama correspondants aux paramètres recus
@@ -201,8 +88,10 @@ module.exports.saveNewLink = function (numPuce, numPano, namePano) {
     panosCollection.findOne({
         numPano: numPano
     }, function (err, pano) {
-        pucesCollection.findOne({ numPuce: numPuce}, function (err, puce) {
-            if (pano == null) {
+        pucesCollection.findOne({
+            numPuce: numPuce
+        }, function (err, puce) {            
+            if (pano == null) { //si le pano n'est pas encore dans la base
                 var newPano = new panosCollection({
                     namePano: namePano,
                     numPano: numPano
@@ -226,7 +115,6 @@ module.exports.saveNewLink = function (numPuce, numPano, namePano) {
                     if (err) return handleError(err);
                 })
             }
-
         })
     })
 }
@@ -284,7 +172,7 @@ module.exports.changeLink = function (numPuce, numPano, numPuceToDelete) {
 // Récupère le capteur selectionné,
 // récupère les différents élement correspond aux IDs contenus dans le tableau panos
 // envoie la liste des panoramas et le numéro de capteur au serveur grâce à une callback
-module.exports.getPanoPerPuceName = function (namePuce, callback) {
+module.exports.getPanoWithPuceName = function (namePuce, callback) {
     pucesCollection
         .findOne({
             namePuce: namePuce
@@ -292,7 +180,11 @@ module.exports.getPanoPerPuceName = function (namePuce, callback) {
         .populate("panos")
         .exec(function (err, puce) {
             if (err) return callback(err, null)
-            callback(null, puce.panos, puce.numPuce)
+            if (puce.panos == null) {
+                callback(null, [], puce.numPuce)
+            } else {
+                callback(null, puce.panos, puce.numPuce)
+            }
         })
 }
 // Renvoie les panoramas (tableau d'objets json) du capteur dont le numéro est passé en paramètre
