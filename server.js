@@ -81,8 +81,8 @@ app.post("/deleteLink", function (req, res) {
 app.post("/getPanoWithPuceName", function (req, res) {
     var namePuce = req.body.namePuce
     var myString = "<option value=''>Selectionnez un panorama</option>"
-    mongo_functions.getPanoPerPuceName(namePuce, function (err, panosList, numPuce) {
-        panosList.forEach(pano => {
+    mongo_functions.getPanoWithPuceName(namePuce, function (err, panosList, numPuce) {
+        panosList.forEach(pano => {            
             myString += "<option value='" + pano.numPano + "'>" + pano.namePano + "</option>"
         })
         var hideInput = "<input id='numPuce' name='numPuce' type='hidden' value='" + numPuce + "'>"
