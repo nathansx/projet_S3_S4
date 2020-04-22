@@ -5,7 +5,7 @@
 "use strict";
 
 // Constante à modifier selon le port série où est branchée la carte Arduino
-const ArduinoSerial = "COM3";
+const ArduinoSerial = "COM1";
 const DossierData = "/Panoramadata";
 
 // Récupération des modules nécessaires
@@ -111,6 +111,12 @@ app.post("/getPanoWithPuceNum", function (req, res) {
         res.send(myString)
     })
 })
+app.post("/getLinks", function (req, res) {
+    var numPuce = req.body.numPuce
+    mongo_functions.getPanoBySensor(numPuce,function (err, panos) {
+        res.send(panos)
+    })
+})
 
 // Démarrage du serveur et ouvre la connexion à la bdd
 mongo_functions.connectDB();
@@ -138,21 +144,13 @@ port.open(function (err) {
 port.on("open", function () {
     console.log("open");
     port.on("readable", function () {
-	
-        var buffer = port.read();
+        var buffer = port.read(5);
         if (buffer != null) {
-            console.log("Lecteur : ", buffer[0]-48);
+            console.log("Lecteur : ", buffer[0]);
             console.log("Data : ", buffer.slice(1).join(" "));
-            lecteur = buffer[0]-48;
+            lecteur = buffer[0];
             console.log("emission");
             io.sockets.emit("message", lecteur);
-	    port.read();
-	    port.read();
-	    port.read();
-	    port.read();
-	    port.read();
-	    port.read();
         }
-	
     });
 });
