@@ -48,31 +48,27 @@ module.exports.getAllPano = function (callback) {
     var foldersList = admin_functions.allDirToAdd()
     var namePanoInBase = []
     var panoToAddList = []
-    var lastID = 1
     panosCollection.find() // récupère tout les panos de la base
         .populate("puce")
         .exec(function (err, panos) {
             if (err) return handleError(err);
             panos.forEach(pano => {
-                if (lastID <= pano.numPano) {// crée le dernier numPano
-                    lastID = pano.numPano + 1
-                }
+                namePanoInBase.push(pano.namePano)
+
                 if(pano.puce == undefined){// Si le pano n'est pas lié
-                    namePanoInBase.push(pano.namePano)
                     panoToAddList.push(pano)
                 }
             });
             foldersList.forEach(folderName => {
                 if (namePanoInBase.indexOf(folderName) == -1) {// si le pano n'est pas dans la base
                     var newPano = new panosCollection({
-                        numPano: lastID,
+                        numPano: folderName.split('_')[folderName.split('_').length-1],
                         namePano: folderName
                     })
                     panoToAddList.push(newPano)
-                    lastID += 1
                 }
             })
-            
+
             if (err) return callback(err, null)
             callback(null, panoToAddList)
         })
@@ -94,8 +90,9 @@ module.exports.saveNewLink = function (numPuce, numPano, namePano) {
             if (pano == null) { //si le pano n'est pas encore dans la base
                 var newPano = new panosCollection({
                     namePano: namePano,
-                    numPano: numPano
+                    numPano: namePano.split('_')[namePano.split('_').length-1]
                 })
+                
                 puce.panos.push(newPano)
                 newPano.puce = puce
                 newPano.save(function (err) {
@@ -201,4 +198,12 @@ module.exports.getPanoPerPuceNum = function (numPuce, callback) {
             if (err) return callback(err, null)
             callback(null, puce.panos)
         })
+}
+
+module.exports.getPanoBySensor = function (numPuce, callback) {
+    pucesCollection.find({numPuce: numPuce})
+    .populate('panos')
+    .exec(function (err, puce){
+        callback(null, puce.panos)
+    })
 }
