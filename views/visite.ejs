@@ -305,22 +305,27 @@
 			panorama = document.getElementById("krpanoSWFObject");
 
 			// Récupération et traitement du fichier CSV
-			$.ajax({
-				type: "GET",
-				url: "../Panoramadata/fichiersDonnees/data.csv", // CHANGER LE NOM DU DOSSIER SI BESOIN
-				dataType: "text",
-				success: function (data) {
-					console.log(data);
-					
-					processData(data);
-				}
-			});
+			// $.ajax({
+			// 	type: "GET",
+			// 	url: "../Panoramadata/fichiersDonnees/data.csv", // CHANGER LE NOM DU DOSSIER SI BESOIN
+			// 	dataType: "text",
+			// 	success: function (data) {
+			// 		console.log(data);
+
+			// 		// processData(data);
+			// 	}
+			// });
+
+
 
 		}, false);
 
 		// Sur réception d'un message du serveur (contenant les données RFID), changement du panorama affiché
 		socket.on('message', function (message) {
-			callPano(message);
+			$.post("/getLinks", {numPuce: message}, function (panos) {
+				callPano(panos[0].numPano)
+			})
+			// callPano(message);
 		})
 	</script>
 
