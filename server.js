@@ -5,7 +5,7 @@
 "use strict";
 
 // Constante à modifier selon le port série où est branchée la carte Arduino
-const ArduinoSerial = "COM1";
+const ArduinoSerial = "COM3";
 const DossierData = "/Panoramadata";
 
 // Récupération des modules nécessaires
@@ -138,13 +138,21 @@ port.open(function (err) {
 port.on("open", function () {
     console.log("open");
     port.on("readable", function () {
-        var buffer = port.read(5);
+	
+        var buffer = port.read();
         if (buffer != null) {
-            console.log("Lecteur : ", buffer[0]);
+            console.log("Lecteur : ", buffer[0]-48);
             console.log("Data : ", buffer.slice(1).join(" "));
-            lecteur = buffer[0];
+            lecteur = buffer[0]-48;
             console.log("emission");
             io.sockets.emit("message", lecteur);
+	    port.read();
+	    port.read();
+	    port.read();
+	    port.read();
+	    port.read();
+	    port.read();
         }
+	
     });
 });
