@@ -6,7 +6,7 @@ const Schema = mongoose.Schema
 const panosSchema = new Schema({
     numPano: Number,
     namePano: String,
-    puce: { type: Schema.Types.ObjectId, ref: 'puces' }
+    sensor: { type: Schema.Types.ObjectId, ref: 'sensors' }
 });
 
 // construit dans la collection (équivalent table SQL) "panos"
