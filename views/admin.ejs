@@ -12,7 +12,7 @@
 
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="#">Menu</a>
+		<a class="navbar-brand" href="/menu">Menu</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -20,23 +20,23 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<li class="nav-item active">
-					<a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
+					<a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" data-toggle="modal" onclick="getPanoList('#selectPano')"
+					<a class="nav-link" data-toggle="modal" onclick="getPanoToAddList()"
 						data-target="#ajoutModal">Ajouter</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" data-toggle="modal" onclick="getAllPuceList('#selectPuceToChange')"
+					<a class="nav-link" data-toggle="modal" onclick="getSensorList('#selectSensorToChange')"
 						data-target="#modifierModal">Modifier</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" data-toggle="modal" onclick="getAllPuceList('#selectPuceToDelete')"
+					<a class="nav-link" data-toggle="modal" onclick="getSensorList('#selectSensorToDelete')"
 						data-target="#supprimerModal">Supprimer</a>
 				</li>
 			</ul>
 			<div class="my-4 my-lg-0">
-				<a class="nav-link text-success" href="/visite">Lancerla visite</a>
+				<a class="nav-link text-success" href="/visite">Lancer la visite</a>
 			</div>
 		</div>
 	</nav>
@@ -48,7 +48,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="ajoutModalLabel">Ajout panorama</h5>
+					<h5 class="modal-title" id="ajoutModalLabel">Ajouter un panorama</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -57,15 +57,16 @@
 					<!--Body du modal-->
 					<form id="addLinkForm">
 						<div class="form-group">
-							<label for="selectToAdd">Selectionnez le panorama</label>
-							<select class="form-control" id="selectPano" onchange="getPuceList(this.value)">
-							</select>
+							<label for='selectPanoToAdd'>Selectionnez le panorama</label>
+							<select class='form-control' id='selectPanoToAdd' onchange='getSensorListToAdd(this.value)'></select>
 						</div>
 					</form>
 				</div>
 				<!--Footer du modal-->
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" id="closeB" data-dismiss="modal">Fermer</button>
+					<button type="button" id="saveLien" class="btn btn-primary"
+						onclick="generalAddLink()">Sauvegarder</button>
 				</div>
 			</div>
 		</div>
@@ -77,7 +78,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="modifModalLabel">Modifie panorama</h5>
+					<h5 class="modal-title" id="modifModalLabel">Modifier un panorama</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -86,9 +87,9 @@
 					<!--Body du modal-->
 					<form id="changeLinkForm">
 						<div class="form-group">
-							<label for="selectPuceToChange">Selectionnez le capteur lié au panorama à modifier</label>
-							<select class="form-control" id="selectPuceToChange"
-								onchange="getPanoListByPuceToChange(this.value)">
+							<label for="selectSensorToChange">Selectionnez le capteur lié au panorama à modifier</label>
+							<select class="form-control" id="selectSensorToChange"
+								onchange="getPanoListToChange(this.value)">
 							</select>
 						</div>
 					</form>
@@ -96,7 +97,8 @@
 				<!--Footer du modal-->
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-					<button type="button" class="btn btn-primary" id="globalChangeLink">Modifier</button>
+					<button type="button" class="btn btn-primary" id="globalChangeLink"
+						onclick="globalChangeLink()">Modifier</button>
 				</div>
 			</div>
 		</div>
@@ -117,9 +119,9 @@
 					<!--Body du modal-->
 					<form id="deleteLinkForm">
 						<div class="form-group">
-							<label for="selectPuceToDelete">Selectionnez le capteur lié au panorama à modifier</label>
-							<select class="form-control" id="selectPuceToDelete"
-								onchange="getPanoListByPuceToDelete(this.value)">
+							<label for="selectSensorToDelete">Selectionnez le capteur lié au panorama à modifier</label>
+							<select class="form-control" id="selectSensorToDelete"
+								onchange="getPanoListToDelete(this.value)">
 							</select>
 						</div>
 					</form>
@@ -129,7 +131,8 @@
 				<!--Footer du modal-->
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-					<button type="button" class="btn btn-danger" id="globalDeleteLink">Supprimer</button>
+					<button type="button" class="btn btn-danger" id="globalDeleteLink"
+						onclick="globalDeleteLink()">Supprimer</button>
 				</div>
 			</div>
 		</div>
@@ -151,9 +154,9 @@
 				<!--Footer du modal-->
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-					<button type="button" class="btn btn-success addLink">Ajouter</button>
-					<button type="button" class="btn btn-warning changeLink">Modifier</button>
-					<button type="button" class="btn btn-danger deleteLink">Supprimer</button>
+					<button type="button" class="btn btn-success" id="addLink" onclick="addLinkWithMap(this.parentElement.parentElement.firstElementChild.firstElementChild.innerHTML)">Ajouter</button>
+					<button type="button" class="btn btn-warning" id="changeLink" onclick="changeLinkWithMap(this.parentElement.parentElement.firstElementChild.firstElementChild.innerHTML)">Modifier</button>
+					<button type="button" class="btn btn-danger deleteLink" id="deleteLink" onclick="deleteLinkWithMap(this.parentElement.parentElement.firstElementChild.firstElementChild.innerHTML)">Supprimer</button>
 				</div>
 			</div>
 		</div>
@@ -163,40 +166,42 @@
 
 	<img src="img/carte.png" class="resp" usemap="#image-map">
 	<map name="image-map">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce1" onclick="generateSensorModule(this.title)"
-			coords="430,295,395,231" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce2" onclick="generateSensorModule(this.title)"
+		<area data-toggle="modal" data-target="#sensorModal" title="Calcaire Jurassiques de la Voulte"
+			onclick="generateSensorModal(this.title)" coords="513,397,481,328" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Grès Triassiques des Cevennes d'Ardèche"
+			onclick="generateSensorModal(this.title)" coords="316,560,348,621" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Calcaires Jurassiques du bassin d'Aubenas"
+			onclick="generateSensorModal(this.title)" coords="253,476,285,539" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Calcaires Crétacés des gorges de l'Ardèche"
+			onclick="generateSensorModal(this.title)" coords="327,678,354,746" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Basaltes du massif de Coiron"
+			onclick="generateSensorModal(this.title)" coords="377,493,413,557" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Phonolites et Basaltes des plateaux Ardèchois"
+			onclick="generateSensorModal(this.title)" coords="205,320,240,385" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Grès argileux du Permien de Largentière"
+			onclick="generateSensorModal(this.title)" coords="241,543,261,611" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Charbons du bassin de Prades"
+			onclick="generateSensorModal(this.title)" coords="268,594,293,660" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Basaltes de la Haute vallée de l'Ardèche"
+			onclick="generateSensorModal(this.title)" coords="196,409,232,474" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Diatomites du Coiron"
+			onclick="generateSensorModal(this.title)" coords="432,454,465,521" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Granites et Miccashistes du massif de Tarargue"
+			onclick="generateSensorModal(this.title)" coords="148,526,181,589" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Granites et Miccashistes des gorges du Doux"
+			onclick="generateSensorModal(this.title)" coords="430,295,395,231" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal"
+			title="Granites et Miccashistes des bassins versant de l'Eyrieux" onclick="generateSensorModal(this.title)"
 			coords="432,300,464,368" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce3" onclick="generateSensorModule(this.title)"
-			coords="412,388,447,451" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce4" onclick="generateSensorModule(this.title)"
-			coords="344,399,376,464" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce5" onclick="generateSensorModule(this.title)"
-			coords="377,493,413,557" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce6" onclick="generateSensorModule(this.title)"
-			coords="432,454,465,521" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce7" onclick="generateSensorModule(this.title)"
-			coords="205,320,240,385" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce8" onclick="generateSensorModule(this.title)"
-			coords="155,366,190,430" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce9" onclick="generateSensorModule(this.title)"
-			coords="196,409,232,474" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce10" onclick="generateSensorModule(this.title)"
-			coords="148,526,181,589" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce11" onclick="generateSensorModule(this.title)"
-			coords="173,613,205,678" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce12" onclick="generateSensorModule(this.title)"
-			coords="253,476,285,539" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce13" onclick="generateSensorModule(this.title)"
-			coords="241,543,261,611" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce4" onclick="generateSensorModule(this.title)"
-			coords="316,560,348,621" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce15" onclick="generateSensorModule(this.title)"
-			coords="268,594,293,660" shape="rect">
-		<area data-toggle="modal" data-target="#sensorModal" title="puce16" onclick="generateSensorModule(this.title)"
-			coords="327,678,354,746" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Basaltes et Pouzzolanes des hauteurs de Privas"
+			onclick="generateSensorModal(this.title)" coords="344,399,376,464" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Lac de cratère du plateau Ardèchois"
+			onclick="generateSensorModal(this.title)" coords="155,366,190,430" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Calcaires Jurassiques du bassin des Vans"
+			onclick="generateSensorModal(this.title)" coords="173,613,205,678" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="Grès Triassiques du bassin de Privas"
+			onclick="generateSensorModal(this.title)" coords="412,388,447,451" shape="rect">
 	</map>
-
 
 	<footer class="text-center">
 		<div class="container">
