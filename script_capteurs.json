@@ -1,16 +1,17 @@
-{"_id":{"$oid":"5e877ea1542b05059cd97678"},"numPuce":{"$numberInt":"1"},"namePuce":"puce1"}
-{"_id":{"$oid":"5e877ebb542b05059cd97679"},"numPuce":{"$numberInt":"2"},"namePuce":"puce2"}
-{"_id":{"$oid":"5e877ecd542b05059cd9767a"},"numPuce":{"$numberInt":"3"},"namePuce":"puce3"}
-{"_id":{"$oid":"5e877ecd542b05059cd9767b"},"numPuce":{"$numberInt":"4"},"namePuce":"puce4"}
-{"_id":{"$oid":"5e877ecd542b05059cd9767c"},"numPuce":{"$numberInt":"5"},"namePuce":"puce5"}
-{"_id":{"$oid":"5e877ecd542b05059cd9767d"},"numPuce":{"$numberInt":"6"},"namePuce":"puce6"}
-{"_id":{"$oid":"5e877ecd542b05059cd9767e"},"numPuce":{"$numberInt":"7"},"namePuce":"puce7"}
-{"_id":{"$oid":"5e877ecd542b05059cd9767f"},"numPuce":{"$numberInt":"8"},"namePuce":"puce8"}
-{"_id":{"$oid":"5e877ea1542b05059cd97680"},"numPuce":{"$numberInt":"9"},"namePuce":"puce9"}
-{"_id":{"$oid":"5e877ebb542b05059cd97681"},"numPuce":{"$numberInt":"10"},"namePuce":"puce10"}
-{"_id":{"$oid":"5e877ecd542b05059cd97682"},"numPuce":{"$numberInt":"11"},"namePuce":"puce11"}
-{"_id":{"$oid":"5e877ecd542b05059cd97683"},"numPuce":{"$numberInt":"12"},"namePuce":"puce12"}
-{"_id":{"$oid":"5e877ecd542b05059cd97684"},"numPuce":{"$numberInt":"13"},"namePuce":"puce13"}
-{"_id":{"$oid":"5e877ecd542b05059cd97685"},"numPuce":{"$numberInt":"14"},"namePuce":"puce14"}
-{"_id":{"$oid":"5e877ecd542b05059cd97686"},"numPuce":{"$numberInt":"15"},"namePuce":"puce15"}
-{"_id":{"$oid":"5e877ecd542b05059cd97687"},"numPuce":{"$numberInt":"16"},"namePuce":"puce16"}
+{"_id":{"$oid":"5e877ea1542b05059cd97678"},"numSensor":{"$numberInt":"1"},"nameSensor":"Calcaire Jurassiques de la Voulte"}
+{"_id":{"$oid":"5e877ebb542b05059cd97679"},"numSensor":{"$numberInt":"2"},"nameSensor":"Grès Triassiques des Cevennes d'Ardèche"}
+{"_id":{"$oid":"5e877ecd542b05059cd9767a"},"numSensor":{"$numberInt":"3"},"nameSensor":"Calcaires Jurassiques du bassin d'Aubenas"}
+{"_id":{"$oid":"5e877ecd542b05059cd9767b"},"numSensor":{"$numberInt":"4"},"nameSensor":"Calcaires Crétacés des gorges de l'Ardèche"}
+{"_id":{"$oid":"5e877ecd542b05059cd9767c"},"numSensor":{"$numberInt":"5"},"nameSensor":"Basaltes du massif de Coiron"}
+{"_id":{"$oid":"5e877ecd542b05059cd9767d"},"numSensor":{"$numberInt":"6"},"nameSensor":"Phonolites et Basaltes des plateaux Ardèchois"}
+{"_id":{"$oid":"5e877ecd542b05059cd9767e"},"numSensor":{"$numberInt":"7"},"nameSensor":"Grès argileux du Permien de Largentière"}
+{"_id":{"$oid":"5e877ecd542b05059cd9767f"},"numSensor":{"$numberInt":"8"},"nameSensor":"Charbons du bassin de Prades"}
+{"_id":{"$oid":"5e877ea1542b05059cd97680"},"numSensor":{"$numberInt":"9"},"nameSensor":"Basaltes de la Haute vallée de l'Ardèche"}
+{"_id":{"$oid":"5e877ebb542b05059cd97681"},"numSensor":{"$numberInt":"10"},"nameSensor":"Diatomites du Coiron"}
+{"_id":{"$oid":"5e877ecd542b05059cd97682"},"numSensor":{"$numberInt":"11"},"nameSensor":"Granites et Miccashistes du massif de Tarargue"}
+{"_id":{"$oid":"5e877ecd542b05059cd97683"},"numSensor":{"$numberInt":"12"},"nameSensor":"Granites et Miccashistes des gorges du Doux"}
+{"_id":{"$oid":"5e877ecd542b05059cd97684"},"numSensor":{"$numberInt":"13"},"nameSensor":"Granites et Miccashistes des bassins versant de l'Eyrieux"}
+{"_id":{"$oid":"5e877ecd542b05059cd97685"},"numSensor":{"$numberInt":"14"},"nameSensor":"Basaltes et Pouzzolanes des hauteurs de Privas"}
+{"_id":{"$oid":"5e877ecd542b05059cd97686"},"numSensor":{"$numberInt":"15"},"nameSensor":"Lac de cratère du plateau Ardèchois"}
+{"_id":{"$oid":"5e877ecd542b05059cd97687"},"numSensor":{"$numberInt":"16"},"nameSensor":"Calcaires Jurassiques du bassin des Vans"}
+{"_id":{"$oid":"5e877ecd542b05059cd97688"},"numSensor":{"$numberInt":"16"},"nameSensor":"Grès Triassiques du bassin de Privas"}

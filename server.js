@@ -5,7 +5,7 @@
 "use strict";
 
 // Constante à modifier selon le port série où est branchée la carte Arduino
-const ArduinoSerial = "COM1";
+const ArduinoSerial = "COM3";
 const DossierData = "/Panoramadata";
 
 // Récupération des modules nécessaires
@@ -47,73 +47,54 @@ app.get("/visite", function (req, res) {
 
 //Permet de créer et d'envoyer à linterface une liste d'elements <option> contenant les panoramas à ajouter
 app.get("/getFolders", function (req, res) {
-    var myString = "<option value=''>Selectionnez un panorama</option>"
     mongo_functions.getAllPano(function (err, panoList) {
-        panoList.forEach(pano => {
-            myString += "<option value='" + pano.numPano + "'>" + pano.namePano + "</option>"
-        })
-        res.send(myString)
+        res.send(panoList)
     })
 })
 // Permet de créer et d'envoyer à l'interface une liste d'elements <option> contenant les différents capteurs
-app.get("/getPuces", function (req, res) {
-    var myString = "<option value=''>Selectionnez un capteur</option>"
-    mongo_functions.getAllPuce(function (err, puceList) {
-        puceList.forEach(puce => {
-            myString += "<option value='" + puce.numPuce + "'>" + puce.namePuce + "</option>"
-        })
-        res.send(myString)
+app.get("/getSensors", function (req, res) {
+    mongo_functions.getAllSensor(function (err, sensorList) {
+        res.send(sensorList)
     })
 })
 // Récupère les données envoyées depuis l'interface afin de créer un nouveau lien à l'aide de la fonction saveNewLink (cf /project_modules/mongo_mod.js)
 app.post("/saveNewLink", function (req, res) {
-    var numPuce = req.body.numPuce
-    var numPano = req.body.numPano
-    var namePano = req.body.namePano
-    mongo_functions.saveNewLink(numPuce, numPano, namePano)
+    mongo_functions.saveNewLink(req.body.numSensor, req.body.numPano, req.body.namePano)
 })
 // Appelle la fonction deleteLink du module mongo_mod.js avec en paramètres les données envoyées par l'interface
 app.post("/deleteLink", function (req, res) {
-    mongo_functions.deleteLink(req.body.numPuce, req.body.numPano)
+    mongo_functions.deleteLink(req.body.numSensor, req.body.numPano)
 
 })
 // Reçoit un nom de capteur qui permet de récuperer les panoramas liés à celui-ci
-app.post("/getPanoWithPuceName", function (req, res) {
-    var namePuce = req.body.namePuce
-    var myString = "<option value=''>Selectionnez un panorama</option>"
-    mongo_functions.getPanoWithPuceName(namePuce, function (err, panosList, numPuce) {
-        panosList.forEach(pano => {            
-            myString += "<option value='" + pano.numPano + "'>" + pano.namePano + "</option>"
-        })
-        var hideInput = "<input id='numPuce' name='numPuce' type='hidden' value='" + numPuce + "'>"
+app.post("/getPanoWithSensorName", function (req, res) {
+    var nameSensor = req.body.nameSensor
+    mongo_functions.getPanoWithSensorName(nameSensor, function (err, panosList, numSensor) {
+        var hideInput = "<input id='numSensor' name='numSensor' type='hidden' value='" + numSensor + "'>"
         res.send({
-            myString: myString,
+            panoList: panosList,
             hideInput: hideInput
         })
     })
 })
 // Reçoit en requête un numéro de capteur et un numéro de panorama permettant de créer un nouveau lien
 app.post("/changeLink", function (req, res) {
-    var numPuce = req.body.numPuce
+    var numSensor = req.body.numSensor
     var numPano = req.body.numPano
-    var numPuceToDelete = req.body.numPuceToDelete
-    mongo_functions.changeLink(numPuce, numPano, numPuceToDelete)
+    var numSensorToDelete = req.body.numSensorToDelete
+    mongo_functions.changeLink(numSensor, numPano, numSensorToDelete)
 })
 // Reçoit un numéro de capteur qui permet de renvoyer une liste d'élements <option> 
 // contenant les panoramas liés à celui-ci
-app.post("/getPanoWithPuceNum", function (req, res) {
-    var numPuce = req.body.numPuce
-    var myString = "<option value=''>Selectionnez un panorama</option>"
-    mongo_functions.getPanoPerPuceNum(numPuce, function (err, panosList) {
-        panosList.forEach(pano => {
-            myString += "<option value='" + pano.numPano + "'>" + pano.namePano + "</option>"
-        })
-        res.send(myString)
+app.post("/getPanoWithSensorNum", function (req, res) {
+    var numSensor = req.body.numSensor
+    mongo_functions.getPanoWithSensorNum(numSensor, function (err, panosList) {
+        res.send(panosList)
     })
 })
 app.post("/getLinks", function (req, res) {
-    var numPuce = req.body.numPuce
-    mongo_functions.getPanoBySensor(numPuce,function (err, panos) {
+    var numSensor = req.body.numSensor
+    mongo_functions.getPanoBySensor(numSensor, function (err, panos) {
         res.send(panos)
     })
 })
@@ -144,13 +125,21 @@ port.open(function (err) {
 port.on("open", function () {
     console.log("open");
     port.on("readable", function () {
-        var buffer = port.read(5);
+
+        var buffer = port.read();
         if (buffer != null) {
-            console.log("Lecteur : ", buffer[0]);
+            console.log("Lecteur : ", buffer[0] - 47);
             console.log("Data : ", buffer.slice(1).join(" "));
-            lecteur = buffer[0];
-            console.log("emission");
+            lecteur = buffer[0] - 47;
+            console.log(lecteur);
             io.sockets.emit("message", lecteur);
+            port.read();
+            port.read();
+            port.read();
+            port.read();
+            port.read();
+            port.read();
+
         }
     });
 });
