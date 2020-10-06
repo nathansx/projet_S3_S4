@@ -1,0 +1,17 @@
+{"_id":{"$oid":"5e877ea1542b05059cd97678"},"numSensor":{"$numberInt":"1"},"nameSensor":"1: Calcaire Jurassiques de la Voulte"}
+{"_id":{"$oid":"5e877ebb542b05059cd97679"},"numSensor":{"$numberInt":"2"},"nameSensor":"2: Grès Triassiques des Cevennes d'Ardèche"}
+{"_id":{"$oid":"5e877ecd542b05059cd9767a"},"numSensor":{"$numberInt":"3"},"nameSensor":"3: Calcaires Jurassiques du bassin d'Aubenas"}
+{"_id":{"$oid":"5e877ecd542b05059cd9767b"},"numSensor":{"$numberInt":"4"},"nameSensor":"4: Calcaires Crétacés des gorges de l'Ardèche"}
+{"_id":{"$oid":"5e877ecd542b05059cd9767c"},"numSensor":{"$numberInt":"5"},"nameSensor":"5: Basaltes du massif de Coiron"}
+{"_id":{"$oid":"5e877ecd542b05059cd9767d"},"numSensor":{"$numberInt":"6"},"nameSensor":"6: Phonolites et Basaltes des plateaux Ardèchois"}
+{"_id":{"$oid":"5e877ecd542b05059cd9767e"},"numSensor":{"$numberInt":"7"},"nameSensor":"7: Grès argileux du Permien de Largentière"}
+{"_id":{"$oid":"5e877ecd542b05059cd9767f"},"numSensor":{"$numberInt":"8"},"nameSensor":"8: Charbons du bassin de Prades"}
+{"_id":{"$oid":"5e877ea1542b05059cd97680"},"numSensor":{"$numberInt":"9"},"nameSensor":"9: Basaltes de la Haute vallée de l'Ardèche"}
+{"_id":{"$oid":"5e877ebb542b05059cd97681"},"numSensor":{"$numberInt":"10"},"nameSensor":"10: Diatomites du Coiron"}
+{"_id":{"$oid":"5e877ecd542b05059cd97682"},"numSensor":{"$numberInt":"11"},"nameSensor":"11: Granites et Miccashistes du massif de Tarargue"}
+{"_id":{"$oid":"5e877ecd542b05059cd97683"},"numSensor":{"$numberInt":"12"},"nameSensor":"12: Granites et Miccashistes des gorges du Doux"}
+{"_id":{"$oid":"5e877ecd542b05059cd97684"},"numSensor":{"$numberInt":"13"},"nameSensor":"13: Granites et Miccashistes des bassins versant de l'Eyrieux"}
+{"_id":{"$oid":"5e877ecd542b05059cd97685"},"numSensor":{"$numberInt":"14"},"nameSensor":"14: Basaltes et Pouzzolanes des hauteurs de Privas"}
+{"_id":{"$oid":"5e877ecd542b05059cd97686"},"numSensor":{"$numberInt":"15"},"nameSensor":"15: Lac de cratère du plateau Ardèchois"}
+{"_id":{"$oid":"5e877ecd542b05059cd97687"},"numSensor":{"$numberInt":"16"},"nameSensor":"16: Calcaires Jurassiques du bassin des Vans"}
+{"_id":{"$oid":"5e877ecd542b05059cd97688"},"numSensor":{"$numberInt":"17"},"nameSensor":"17: Grès Triassiques du bassin de Privas"}

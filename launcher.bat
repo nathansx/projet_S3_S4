@@ -1,1 +1,0 @@
-start demarrerServeur.bat && ouvrirClient.bat

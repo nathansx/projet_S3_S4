@@ -53,8 +53,6 @@ function getNumPanorama(){
 	
 }
 
-
-
 function logMapElements(value, key, map) {
 	if(value === ' ')
 	{

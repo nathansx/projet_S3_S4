@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Menu carte interactive</title>
+	<link href="css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+	<!-- barre de navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="/menu">Menu</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="modal" onclick="getPanoToAddList()"
+						data-target="#ajoutModal">Ajouter</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="modal" onclick="getSensorList('#selectSensorToChange')"
+						data-target="#modifierModal">Modifier</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="modal" onclick="getSensorList('#selectSensorToDelete')"
+						data-target="#supprimerModal">Supprimer</a>
+				</li>
+			</ul>
+			<div class="my-4 my-lg-0">
+				<a class="nav-link text-success" href="/visite">Lancer la visite</a>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Ajout Modal -->
+	<div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog" aria-labelledby="ajoutModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ajoutModalLabel">Ajouter un panorama</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!--Body du modal-->
+					<form id="addLinkForm">
+						<div class="form-group">
+							<label for='selectPanoToAdd'>Selectionnez le panorama</label>
+							<select class='form-control' id='selectPanoToAdd'
+								onchange='getSensorListToAdd(this.value)'></select>
+						</div>
+					</form>
+				</div>
+				<!--Footer du modal-->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" id="closeB" data-dismiss="modal">Fermer</button>
+					<button type="button" id="saveLien" class="btn btn-primary btn-success"
+						onclick="generalAddLink()">Sauvegarder</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Modifier modal-->
+	<div class="modal fade" id="modifierModal" tabindex="-1" role="dialog" aria-labelledby="modifModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modifModalLabel">Modifier un panorama</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!--Body du modal-->
+					<form id="changeLinkForm">
+						<div class="form-group">
+							<label for="selectSensorToChange">Selectionnez le capteur lié au panorama à modifier</label>
+							<select class="form-control" id="selectSensorToChange"
+								onchange="getPanoListToChange(this.value)">
+							</select>
+						</div>
+					</form>
+				</div>
+				<!--Footer du modal-->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+					<button type="button" class="btn btn-primary btn-warning" id="globalChangeLink"
+						onclick="globalChangeLink()">Modifier</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Supprimer modal-->
+	<div class="modal fade" id="supprimerModal" tabindex="-1" role="dialog" aria-labelledby="suppModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="suppModalLabel">Supprimer un panorama</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!--Body du modal-->
+					<form id="deleteLinkForm">
+						<div class="form-group">
+							<label for="selectSensorToDelete">Selectionnez le capteur lié au panorama à modifier</label>
+							<select class="form-control" id="selectSensorToDelete"
+								onchange="getPanoListToDelete(this.value)">
+							</select>
+						</div>
+					</form>
+				</div>
+
+
+				<!--Footer du modal-->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+					<button type="button" class="btn btn-danger" id="globalDeleteLink"
+						onclick="globalDeleteLink()">Supprimer</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--sensor modal-->
+	<div class="modal fade" id="sensorModal" tabindex="-1" role="dialog" aria-labelledby="sensorModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header" id="titleSensorModal">
+
+				</div>
+				<div class="modal-body">
+
+				</div>
+
+
+				<!--Footer du modal-->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+					<button type="button" class="btn btn-success" id="addLink"
+						onclick="addLinkWithMap(this.parentElement.parentElement.firstElementChild.firstElementChild.innerHTML)">Ajouter</button>
+					<button type="button" class="btn btn-warning" id="changeLink"
+						onclick="changeLinkWithMap(this.parentElement.parentElement.firstElementChild.firstElementChild.innerHTML)">Modifier</button>
+					<button type="button" class="btn btn-danger deleteLink" id="deleteLink"
+						onclick="deleteLinkWithMap(this.parentElement.parentElement.firstElementChild.firstElementChild.innerHTML)">Supprimer</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Image Map Generated by http://www.image-map.net/ -->
+
+	<img src="img/carte.png" class="resp" usemap="#image-map">
+	<map name="image-map">
+		<area data-toggle="modal" data-target="#sensorModal" title="1: Calcaire Jurassiques de la Voulte"
+			onclick="generateSensorModal(this.title)" coords="513,397,481,328" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="2: Grès Triassiques des Cevennes d'Ardèche"
+			onclick="generateSensorModal(this.title)" coords="316,560,348,621" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="3: Calcaires Jurassiques du bassin d'Aubenas"
+			onclick="generateSensorModal(this.title)" coords="253,476,285,539" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="4: Calcaires Crétacés des gorges de l'Ardèche"
+			onclick="generateSensorModal(this.title)" coords="327,678,354,746" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="5: Basaltes du massif de Coiron"
+			onclick="generateSensorModal(this.title)" coords="377,493,413,557" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="6: Phonolites et Basaltes des plateaux Ardèchois"
+			onclick="generateSensorModal(this.title)" coords="205,320,240,385" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="7: Grès argileux du Permien de Largentière"
+			onclick="generateSensorModal(this.title)" coords="241,543,261,611" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="8: Charbons du bassin de Prades"
+			onclick="generateSensorModal(this.title)" coords="268,594,293,660" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="9: Basaltes de la Haute vallée de l'Ardèche"
+			onclick="generateSensorModal(this.title)" coords="196,409,232,474" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="10: Diatomites du Coiron"
+			onclick="generateSensorModal(this.title)" coords="432,454,465,521" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="11: Granites et Miccashistes du massif de Tarargue"
+			onclick="generateSensorModal(this.title)" coords="148,526,181,589" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="12: Granites et Miccashistes des gorges du Doux"
+			onclick="generateSensorModal(this.title)" coords="430,295,395,231" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal"
+			title="13 Granites et Miccashistes des bassins versant de l'Eyrieux"
+			onclick="generateSensorModal(this.title)" coords="432,300,464,368" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="14: Basaltes et Pouzzolanes des hauteurs de Privas"
+			onclick="generateSensorModal(this.title)" coords="344,399,376,464" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="15: Lac de cratère du plateau Ardèchois"
+			onclick="generateSensorModal(this.title)" coords="155,366,190,430" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="16: Calcaires Jurassiques du bassin des Vans"
+			onclick="generateSensorModal(this.title)" coords="173,613,205,678" shape="rect">
+		<area data-toggle="modal" data-target="#sensorModal" title="17: Grès Triassiques du bassin de Privas"
+			onclick="generateSensorModal(this.title)" coords="412,388,447,451" shape="rect">
+	</map>
+
+	<footer class="text-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<p>Copyright © Muséum de l'Ardèche. All rights reserved.</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+	<script src="js/jQuery.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src="js/script.js"></script>
+</body>
+
+</html>
